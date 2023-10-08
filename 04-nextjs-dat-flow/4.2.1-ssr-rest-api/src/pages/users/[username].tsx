@@ -5,21 +5,33 @@ export async function getServerSideProps(ctx) {
   const { username } = ctx.query
 
   const userReq = await axios.get(
-    `http://localhost:3000/api/04/users/${username}`
+    `${process.env.API_ENDPOINT}/api/04/users/${username}`,
+    {
+      headers: {
+        authorization: process.env.API_TOKEN,
+      },
+    }
   )
+
+  if (userReq.status === 404) {
+    return {
+      notFound: true,
+    }
+  }
 
   return {
     props: {
       user: userReq.data,
+      apiEndpoint: process.env.API_ENDPOINT,
     },
   }
 }
 
-function UserPage({ user }) {
+function UserPage({ user, apiEndpoint }) {
   return (
     <div style={{ display: 'flex' }}>
       <img
-        src={user.profile_picture}
+        src={`${apiEndpoint}${user.profile_picture}`}
         alt={user.username}
         width={150}
         height={150}
