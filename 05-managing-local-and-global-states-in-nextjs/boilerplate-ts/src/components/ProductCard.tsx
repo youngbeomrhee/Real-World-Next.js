@@ -1,4 +1,4 @@
-function ProductCard({ id, name, price, picture }: Data) {
+function ProductCard({ id, name, price, picture }) {
   return (
     <div className="bg-gray-200 p-6 rounded-md">
       <div className="relative 100% h-40 m-auto">
