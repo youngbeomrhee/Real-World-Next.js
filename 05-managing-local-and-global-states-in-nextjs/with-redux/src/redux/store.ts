@@ -6,11 +6,13 @@ import { shallowEqual, useSelector } from 'react-redux'
 export enum CartActionType {
   INCREMENT = 'increment',
   DECREMENT = 'decrement',
+  SET_INITIAL_DATA = 'set_initial_data', // 초기 데이터를 설정하는 액션 유형 추가
 }
 
 export interface CartAction {
   id: string
   type: CartActionType
+  data?: CartState[]
 }
 
 let store:
@@ -64,6 +66,12 @@ const reducer = (state = initialState, action: CartAction) => {
         }
       }
       return state
+    case CartActionType.SET_INITIAL_DATA:
+      debugger
+      return {
+        ...state,
+        ...action.data, // 서버에서 가져온 초기 데이터를 스토어에 병합
+      }
     default:
       return state
   }
